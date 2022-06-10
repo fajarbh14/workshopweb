@@ -11,7 +11,52 @@
   </footer>
 </div>
 
+<div class="modal" tabindex="-1" data-form-modal>
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" data-modal-title></h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body" data-modal-body></div>
+        </div>
+      </div>
+</div>
+
 <script src="/js/bootstrap-js/bootstrap.min.js"></script>
+<script>
+  var formModal;
+
+    document.querySelector("[data-form-modal]").addEventListener("hidden.bs.modal", function() {
+      document.querySelector("[data-modal-title]").innerText = "";
+      document.querySelector("[data-modal-body]").innerHTML = "";
+    });
+
+    function openForm(url, type = "create") {
+        var title = {
+          create: "Tambah Data",
+          edit: "Edit Data",
+          detail: "Detail Data",
+        };
+
+        var modalTitle  = title[type] ? title[type] : "";
+
+        $.ajax({
+          url: url,
+          type: "GET",
+          success: function(response) {
+            $("[data-modal-title]").text(modalTitle);
+            $("[data-modal-body]").html(response);
+            formModal = new bootstrap.Modal(document.querySelector("[data-form-modal]"), {});
+            formModal.show();
+          },
+          error: function(reject) {
+            toastAlert("error", "An error occurred on the server");
+            console.log(reject)
+          }
+        })
+      }
+</script>
 </body>
 
 </html>
