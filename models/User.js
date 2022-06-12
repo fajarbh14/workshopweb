@@ -7,15 +7,7 @@ const User = db.define('User', {
     autoIncrement: true,
     primaryKey: true,
   },
-  name: DataTypes.STRING(80),
-  email: {
-    type: DataTypes.STRING(255),
-    unique: true,
-  },
-  image: {
-    type: DataTypes.STRING(255),
-    allowNull: true,
-  },
+  nama: DataTypes.STRING(80),
   password: {
     type: DataTypes.STRING(255),
   },
