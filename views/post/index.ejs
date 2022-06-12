@@ -18,18 +18,20 @@
     </tr>
   </thead>
   <tbody>
-    <% posts.forEach(post => { %>
+    <% 
+      no = 1
+      posts.forEach(post => { %>
       <tr>
-        <td><%= post.id %></td>
+        <td><%= no++ %></td>
         <td><%= post.title %></td>
         <td><%= post.content %></td>
         <td>
-          <a href="/posts/<%= post.id %>/edit">
+          <a onclick="openForm('/posts/edit/<%= post.id %>', 'create')">
             <button class="btn btn-primary">
               Edit
             </button>
           </a>
-          <a href="/posts/<%= post.id %>/delete">
+          <a href="/posts/delete/<%= post.id %>">
             <button class="btn btn-danger">
               Delete
             </button>
@@ -39,33 +41,5 @@
     <% }); %>
   </tbody>
 </table>
-  </div>
-<script>
-  $(document).on("submit", "#create-form", function() {
-              event.preventDefault();
-              var formData = new FormData();
-              formData.append("title",$("input[name=title]").val())
-              formData.append("content",$("input[name=content]").val())
-              $.ajax({
-                  url: "/posts/store",
-                  type: "POST",
-                  data: formData,
-                  dataType: "json",
-                  contentType: false,
-                  processData: false,
-                  beforeSend: function() {
-                      $("button").attr("disabled", true);
-                  },
-                  success: function(response) {
-                      $("button").attr("disabled", false);
-                      $("#create-form").trigger("reset");
-                      formModal.hide();
-                  },
-                  error: function(reject) {
-                      $("button").attr("disabled", false);
-                      formModal.hide();
-                  }
-              })
-          })
-</script>
+</div>
   <%- include('../includes/footer'); %>
